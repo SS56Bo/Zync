@@ -1,17 +1,24 @@
-'use client';
-import { Button } from "@/components/ui/button";
-import { trpc } from "@/trpc-client/client";
+import { appRouter } from '@/trpc-server/router';
+import { HydrateClient } from '@/lib/hydrate-client';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import Greet from './cc-components/Greet';
 
 
-export default function Home() {
-  const { data: greet } = trpc.greet.useQuery();
-  const { data: love } = trpc.love.useQuery();
+export default async function Page() {
+  const queryClient = new QueryClient();
+  const caller = appRouter.createCaller({});
+
+  // ✅ Correct query key
+  await queryClient.prefetchQuery({
+    queryKey: ['greet'],
+    queryFn: () => caller.greet(),
+  });
+
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className="min-h-screen min-w-screen flex items-center justify-center">
-      <div>{greet}</div>
-      <div>{love}</div>
-      <Button>Click me</Button>
-    </div>
+    <HydrateClient state={dehydratedState}>
+      <Greet />
+    </HydrateClient>
   );
 }
