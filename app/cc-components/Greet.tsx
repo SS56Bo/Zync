@@ -1,15 +1,13 @@
 'use client'
-import { trpc } from "@/trpc-client/client"
 
 function Greet() {
-    const {data: greet} = trpc.greet.useQuery();
-    const {data: user} = trpc.createUser.useQuery();
-  return (
-    <div>
-      {greet?.message}
-      {user?.message}
-    </div>
-  )
+   return (
+      <div className="flex flex-col gap-4">
+        <header>
+          <div className="text-xl">Hello World</div>
+        </header>
+      </div>
+    )
 }
 
 export default Greet
