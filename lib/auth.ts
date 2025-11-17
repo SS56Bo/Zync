@@ -1,16 +1,19 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaClient } from "@/app/generated/prisma/client";
 import prismaAPI from "./db";
 
 export const auth = betterAuth({
     database: prismaAdapter(prismaAPI, {
-        provider: "postgresql", 
+      provider: "postgresql",
     }),
-    emailAndPassword: {
-        enabled: true
+  
+    user: {
+      modelName: "User",       // THIS is the fix.
     },
-    socialProviders: {
-        
-    }
-});
+  
+    emailAndPassword: {
+      enabled: true,
+      autoSignIn: true,
+    },
+  });
+  

@@ -8,14 +8,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FaGoogle, FaGithub } from "react-icons/fa6";
+import { FaGoogle, FaGithub, FaGitlab } from "react-icons/fa6";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 
 const userRegistrationScheme = z.object({
-    fullname: z.string("Fullname is needed"),
-    username: z.string("Username is needed!"),
+    username: z.string("Username is required!"),
     email: z.email("Please enter a valid email!"),
-    password: z.string().min(8, "Password is required!")
+    password: z.string().min(8, "Password should be atleast 8 characters long!")
 })
 
 type UserRegistrationForm = z.infer<typeof userRegistrationScheme>;
@@ -26,7 +27,6 @@ export function RegistrationForm() {
     const regForm = useForm<UserRegistrationForm>({
         resolver: zodResolver(userRegistrationScheme),
         defaultValues: {
-            fullname: "",
             username: "",
             email: "",
             password: ""
@@ -34,7 +34,21 @@ export function RegistrationForm() {
     })
 
     const onSubmit = async (values: UserRegistrationForm) => {
-        console.log(values)
+        await authClient.signUp.email({
+            name: values.username,
+            email: values.email,
+            password: values.password,
+            callbackURL: "/"
+        },
+        {
+            onSuccess: () => {
+                router.push("/")
+            },
+            onError: (ctx) => {
+                toast.error(ctx.error.message)
+            }
+        }
+    )
     }
 
     const isPendingSumbit = regForm.formState.isSubmitting;
@@ -63,18 +77,12 @@ export function RegistrationForm() {
                                         <FaGoogle className="h-4 w-4"/>
                                         Continue with Google
                                     </Button>
+                                    <Button variant="outline" className="w-full flex items-center justify-center gap-2" type="button" disabled={isPendingSumbit}>
+                                        <FaGitlab className="h-4 w-4"/>
+                                        Continue with Gitlab
+                                    </Button>
                                 </div>
                                 <div className="grid gap-6">
-                                    <FormField control={regForm.control} name="fullname" render={({field}) => (
-                                        <FormItem>
-                                            <FormLabel>Fullname</FormLabel>
-                                            <FormControl>
-                                                <Input type="fullname" placeholder="Fullname" {...field}/>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}/>
-
                                     <FormField control={regForm.control} name="username" render={({field}) => (
                                         <FormItem>
                                             <FormLabel>Username</FormLabel>

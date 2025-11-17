@@ -1,24 +1,17 @@
-import { appRouter } from '@/trpc-server/router';
-import { HydrateClient } from '@/lib/hydrate-client';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
-import Greet from './cc-components/Greet';
+"use client";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
 
-export default async function Page() {
-  const queryClient = new QueryClient();
-  const caller = appRouter.createCaller({});
-
-  // ✅ Correct query key
-  await queryClient.prefetchQuery({
-    queryKey: ['greet'],
-    queryFn: () => caller.greet(),
-  });
-
-  const dehydratedState = dehydrate(queryClient);
-
+export default function Page() {
+  const { data } = authClient.useSession()
+  
   return (
-    <HydrateClient state={dehydratedState}>
-      <Greet />
-    </HydrateClient>
+    <div className="min-h-screen min-w-screen flex items-center justify-center">
+      {JSON.stringify(data)}
+      {data && 
+        <Button onClick={() => authClient.signOut()}>Log Out</Button>
+      }
+    </div>
   );
 }
