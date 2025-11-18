@@ -118,7 +118,7 @@ export function RegistrationForm() {
                                     <div>
                                         <div className="text-center text-sm">
                                             Already have an account? {" "}
-                                            <Link href="/login" className="underline underline-offset-4">
+                                            <Link href="/signin" className="underline underline-offset-4">
                                                 Sign in
                                             </Link>
                                         </div>

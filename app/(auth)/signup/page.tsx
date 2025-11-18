@@ -1,8 +1,8 @@
-"use client"
-
 import { RegistrationForm } from "@/app/cc-components/auth/Registration-form";
+import { authCheckPass } from "@/lib/auth-utils";
 
-function page() {
+async function page() {
+    await authCheckPass();
     return(
         <div>
             <RegistrationForm />
