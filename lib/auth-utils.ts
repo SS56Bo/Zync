@@ -19,7 +19,7 @@ export const authCheckPass = async () => {
         headers: await headers(),
     })
 
-    if (!session) {
-        redirect("/dashboard")
+    if (session) {
+        redirect("/")
     }
 }

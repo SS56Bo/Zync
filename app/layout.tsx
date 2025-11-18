@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { TRPCProvider } from "@/lib/reactQuery-provider";
+import { TRPCProvider } from "./api/trpc/client";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
