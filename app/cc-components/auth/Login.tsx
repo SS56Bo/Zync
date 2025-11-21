@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { FaGithub, FaGoogle, FaGitlab } from "react-icons/fa6";
+import { authClient } from "@/lib/auth-client"
 
 
 const userLoginSchema = z.object({
