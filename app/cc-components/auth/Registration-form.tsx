@@ -77,10 +77,10 @@ export function RegistrationForm() {
                                         <FaGoogle className="h-4 w-4"/>
                                         Continue with Google
                                     </Button>
-                                    <Button variant="outline" className="w-full flex items-center justify-center gap-2" type="button" disabled={isPendingSumbit}>
+                                    {/* <Button variant="outline" className="w-full flex items-center justify-center gap-2" type="button" disabled={isPendingSumbit}>
                                         <FaGitlab className="h-4 w-4"/>
                                         Continue with GitLab
-                                    </Button>
+                                    </Button> */}
                                 </div>
                                 <div className="grid gap-6">
                                     <FormField control={regForm.control} name="username" render={({field}) => (
