@@ -31,7 +31,21 @@ export function LoginSupport() {
     })
 
     const onSubmit = async (values: LoginFormType) => {
-        console.log(values)
+        await authClient.signIn.email({
+            email: values.email,
+            password: values.password,
+            rememberMe: true,
+            callbackURL: "/"
+        },
+        {
+            onSuccess: () => {
+                router.push("/")
+            },
+            onError: (ctx) => {
+                toast.error(ctx.error.message)
+            }
+        }
+    )
     }
 
     const isPending = form.formState.isSubmitting;
